@@ -8,9 +8,16 @@ import WeatherData from './data/weather_sample_data.js';
 
 // Individual components
 import WeatherCard from './weatherCard.js';
+import HourlyForecast from './hourlyForecast.js';
 
 
 class WeatherApp extends React.Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			hourly: WeatherData[0].hourly
+		}
+	}
 	handleData() {
 		return WeatherData.map((item, i) => {
 			return <WeatherCard
@@ -20,12 +27,15 @@ class WeatherApp extends React.Component {
 		});
 	}
 
-
-
 	render() {
 		return (
-			<div className="weather-cards-group">
-				{this.handleData()}
+			<div className="container">
+				<div className="weather-cards-group">
+					{this.handleData()}
+				</div>
+				<div className="hourly">
+					<HourlyForecast forecast={this.state.hourly}/>
+				</div>
 			</div>
 		);
 	}

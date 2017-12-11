@@ -7,11 +7,25 @@ body{
 	border: 1px solid green;
 }
 
+.container{
+	display: flex;
+	height: 650px;
+	flex-direction: column;
+	justify-content: space-between;
+	flex-grow: 1;
+	border: 1px solid cyan;
+}
+
 .weather-cards-group{
 	display: flex;
-	flex-basis: 500px;
-	flex-grow: 1;
+	justify-content: center;
+	flex-basis: 200px;
 	border: 1px solid red;
+}
+
+.hourly{
+	flex-basis: 350px;
+	border: 1px solid magenta;
 }
 
 .weather-card{
@@ -20,6 +34,7 @@ body{
 	flex-direction: column;
 	align-items: stretch;
 	border: 1px solid black;
+	border-radius: 5px;
 }
 
 .day{
@@ -35,4 +50,14 @@ body{
 .temperatures{
 	display: flex;
 	justify-content: space-around;
+}
+
+.hourly-data{
+	display: flex;
+	justify-content: space-around;
+}
+
+.hourly-snapshot{
+	border: 1px solid orange;
+	flex-basis: 50px;
 }
