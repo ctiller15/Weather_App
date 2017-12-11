@@ -59,47 +59,47 @@ var WeatherData = [
 		hourly: [
 			{
 				time: "8AM",
-				temp: "82"
+				temp: "52"
 			},
 			{
 				time: "9AM",
-				temp: "81"
+				temp: "54"
 			},
 			{
 				time: "10AM",
-				temp: "88"
+				temp: "57"
 			},
 			{
 				time: "11AM",
-				temp: "93"
+				temp: "58"
 			},
 			{
 				time: "12PM",
-				temp: "83"
+				temp: "63"
 			},
 			{
 				time: "1PM",
-				temp: "90"
+				temp: "64"
 			},
 			{
 				time: "2PM",
-				temp: "92"
+				temp: "68"
 			},
 			{
 				time: "3PM",
-				temp: "97"
+				temp: "67"
 			},
 			{
 				time: "4PM",
-				temp: "95"
+				temp: "64"
 			},
 			{
 				time: "5PM",
-				temp: "80"
+				temp: "62"
 			},
 			{
 				time: "6PM",
-				temp: "80"
+				temp: "58"
 			},
 		],
 	},
@@ -111,47 +111,47 @@ var WeatherData = [
 		hourly: [
 			{
 				time: "8AM",
-				temp: "82"
+				temp: "62"
 			},
 			{
 				time: "9AM",
-				temp: "81"
+				temp: "64"
 			},
 			{
 				time: "10AM",
-				temp: "88"
+				temp: "69"
 			},
 			{
 				time: "11AM",
-				temp: "93"
+				temp: "65"
 			},
 			{
 				time: "12PM",
-				temp: "83"
+				temp: "70"
 			},
 			{
 				time: "1PM",
-				temp: "90"
+				temp: "76"
 			},
 			{
 				time: "2PM",
-				temp: "92"
+				temp: "79"
 			},
 			{
 				time: "3PM",
-				temp: "97"
+				temp: "79"
 			},
 			{
 				time: "4PM",
-				temp: "95"
+				temp: "77"
 			},
 			{
 				time: "5PM",
-				temp: "80"
+				temp: "73"
 			},
 			{
 				time: "6PM",
-				temp: "80"
+				temp: "70"
 			},
 		],
 	},
@@ -163,47 +163,47 @@ var WeatherData = [
 		hourly: [
 			{
 				time: "8AM",
-				temp: "82"
+				temp: "66"
 			},
 			{
 				time: "9AM",
-				temp: "81"
+				temp: "69"
 			},
 			{
 				time: "10AM",
-				temp: "88"
+				temp: "68"
 			},
 			{
 				time: "11AM",
-				temp: "93"
+				temp: "69"
 			},
 			{
 				time: "12PM",
-				temp: "83"
+				temp: "70"
 			},
 			{
 				time: "1PM",
-				temp: "90"
+				temp: "72"
 			},
 			{
 				time: "2PM",
-				temp: "92"
+				temp: "75"
 			},
 			{
 				time: "3PM",
-				temp: "97"
+				temp: "72"
 			},
 			{
 				time: "4PM",
-				temp: "95"
+				temp: "73"
 			},
 			{
 				time: "5PM",
-				temp: "80"
+				temp: "68"
 			},
 			{
 				time: "6PM",
-				temp: "80"
+				temp: "68"
 			},
 		],
 	},
@@ -215,7 +215,7 @@ var WeatherData = [
 		hourly: [
 			{
 				time: "8AM",
-				temp: "82"
+				temp: "73"
 			},
 			{
 				time: "9AM",
@@ -227,7 +227,7 @@ var WeatherData = [
 			},
 			{
 				time: "11AM",
-				temp: "93"
+				temp: "84"
 			},
 			{
 				time: "12PM",
@@ -235,23 +235,23 @@ var WeatherData = [
 			},
 			{
 				time: "1PM",
-				temp: "90"
+				temp: "84"
 			},
 			{
 				time: "2PM",
-				temp: "92"
+				temp: "84"
 			},
 			{
 				time: "3PM",
-				temp: "97"
+				temp: "83"
 			},
 			{
 				time: "4PM",
-				temp: "95"
+				temp: "88"
 			},
 			{
 				time: "5PM",
-				temp: "80"
+				temp: "79"
 			},
 			{
 				time: "6PM",

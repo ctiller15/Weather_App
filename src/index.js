@@ -18,10 +18,17 @@ class WeatherApp extends React.Component {
 			hourly: WeatherData[0].hourly
 		}
 	}
+
+	// Modifies the state of the hourly forecast.
+	changeState(ind) {
+		this.setState({hourly: WeatherData[ind].hourly});
+	}
+
 	handleData() {
 		return WeatherData.map((item, i) => {
 			return <WeatherCard
 				weatherInfo={item}
+				modifyState={() => this.changeState(i)}
 				key={i}
 			/>
 		});
