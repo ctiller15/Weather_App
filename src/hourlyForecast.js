@@ -2,7 +2,7 @@ import React from 'react';
 
 function HourlyForecast(props) {
 
-	const listItems = props.forecast.map((item, i) => {
+	const listItems = props.hourly.map((item, i) => {
 		return( 
 			<div key={i} className="hourly-snapshot">
 				<p>{item.time}</p>

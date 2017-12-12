@@ -23,6 +23,15 @@ body{
 	border: 1px solid red;
 }
 
+.weather-cards-group a{
+	border: 1px solid gray;
+	display: flex;
+	justify-content: center;
+	flex-basis: 150px;
+	text-decoration: none;
+	color: black;
+}
+
 .hourly{
 	flex-basis: 350px;
 	border: 1px solid magenta;

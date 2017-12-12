@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 import './index.css';
 
@@ -26,24 +31,42 @@ class WeatherApp extends React.Component {
 
 	handleData() {
 		return WeatherData.map((item, i) => {
-			return <WeatherCard
-				weatherInfo={item}
-				modifyState={() => this.changeState(i)}
-				key={i}
-			/>
+			return (
+				<Link key={i} to={item.day}>
+					<WeatherCard
+						weatherInfo={item}
+						modifyState={() => this.changeState(i)}
+					/>
+				</Link>
+			);
+		});
+	}
+
+	handleGraphs() {
+		return WeatherData.map((item, i) => {
+			return 	(
+				<Route key={i} path={`/${item.day}`}
+					// Apparently this is how you pass props down to components with react-router. Who knew? 
+					render={(routeProps) => (
+						<HourlyForecast {...routeProps} {...item} />
+					)}
+				/>
+			);
 		});
 	}
 
 	render() {
 		return (
-			<div className="container">
-				<div className="weather-cards-group">
-					{this.handleData()}
+			<Router>
+				<div className="container">
+					<div className="weather-cards-group">
+						{this.handleData()}
+					</div>
+					<div className="hourly">
+						{this.handleGraphs()}
+					</div>
 				</div>
-				<div className="hourly">
-					<HourlyForecast forecast={this.state.hourly}/>
-				</div>
-			</div>
+			</Router>
 		);
 	}
 }
