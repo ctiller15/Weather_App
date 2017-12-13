@@ -20,21 +20,27 @@ class WeatherApp extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			hourly: WeatherData[0].hourly
+			hourly: WeatherData[0].hourly,
 		}
 	}
 
 	componentDidMount() {
-		fetch('https://api.openweathermap.org/data/2.5/forecast?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
-			return response.json();
-		}).then((data) => {
+		Promise.all([
+			fetch('https://api.openweathermap.org/data/2.5/forecast?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
+				return response.json();
+			}),
+			fetch('https://api.openweathermap.org/data/2.5/weather?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
+				return response.json();
+			})
+			]).then((data) => {
+				console.log(data);
 			// At this point, all of the data is logged.
 			var dataObj = {};
 			var dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 			// console.log(data.list);
 			var current="";
 			var previous="";
-			data.list.forEach((arr, index) => {
+			data[0].list.forEach((arr, index) => {
 				let day = new Date(arr.dt*1000);
 				// console.log(day, dates[day.getDay()]);
 				if(!(dates[day.getDay()] in dataObj)){
@@ -52,13 +58,35 @@ class WeatherApp extends React.Component {
 					dataObj[dates[day.getDay()]].push(arr);
 				}
 			});
-			this.setState({weatherData: dataObj});
-		});		
+			this.setState(
+				{
+					currentTemp: {
+						kelvin: {
+							current: data[1].main.temp,
+							min: data[1].main.temp_min,
+							max: data[1].main.temp_max
+						},
+						celsius: {
+							current: data[1].main.temp - 273.15,
+							min: data[1].main.temp_min - 273.15,
+							max: data[1].main.temp_max - 273.15
+						},
+						fahrenheit:{
+							current: ((data[1].main.temp - 273.15) * 1.8) + 32,
+							min: ((data[1].main.temp_min - 273.15) * 1.8) + 32,
+							max: ((data[1].main.temp_max - 273.15) * 1.8) + 32
+						},
+					},
+					weekdata: dataObj
+				},
+			);
+		});
 	}
 
-	// Modifies the state of the hourly forecast.
-	changeState(ind) {
-		this.setState({hourly: WeatherData[ind].hourly});
+	handleDayData(day) {
+		if(this.state.weekdata){
+			return this.state.weekdata[day];
+		}
 	}
 
 	handleData() {
@@ -67,7 +95,10 @@ class WeatherApp extends React.Component {
 				<Link key={i} to={item.day}>
 					<WeatherCard
 						weatherInfo={item}
-						modifyState={() => this.changeState(i)}
+						first={i === 0}
+						currentTemp={this.state.currentTemp}
+						hourly={this.handleDayData(item.day)}
+						currentDay={item.day}
 					/>
 				</Link>
 			);
