@@ -44,7 +44,7 @@ function WeatherCard(props) {
 	return(
 		<div className="weather-card">
 			<CardTop day={props.currentDay}/>
-			<CardMiddle icon={props.weatherInfo.weatherIcon}/>
+			<CardMiddle icon={props.icon}/>
 			{displayCardBottom(props)}
 		</div>
 	);
