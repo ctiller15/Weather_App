@@ -2,34 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
-  Route,
-  Link
 } from 'react-router-dom'
 
 import './index.css';
 
-// Data
-import WeatherData from './data/weather_sample_data.js';
-
 // Individual components
-import WeatherCard from './weatherCard.js';
-import HourlyForecast from './hourlyForecast.js';
-
+import DataWrapper from './wrapper.js';
 
 class WeatherApp extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			hourly: WeatherData[0].hourly,
 		}
 	}
 
 	componentDidMount() {
+		// A list of all the possible icons, and mapping them to the correct image file.
 		var icons = {
 			"01d": "clear.png",
-			"01n": "clearnight.png",
+			"01n": "clear.png",
 			"02d": "partlycloudy.png",
-			"02n": "partlycloudynight.png",
+			"02n": "partlycloudy.png",
 			"03d": "scatteredclouds.png",
 			"03n": "scatteredclouds.png",
 			"04d": "hazy.png",
@@ -37,64 +30,79 @@ class WeatherApp extends React.Component {
 			"09d": "rain01.png",
 			"09n": "rain01.png",
 			"10d": "partlysunnyrain.png",
-			"10n": "rainnight.png",
+			"10n": "partlysunnyrain.png",
 			"11d": "thunderstorms01.png",
 			"11n": "thunderstorms01.png",
 			"13d": "snow.png",
-			"13n": "snownight.png",
+			"13n": "snow.png",
 			"50d": "fog.png",
 			"50n": "fog.png"
 		}
-		console.log(icons);
+
+		// Only runs once both promises are fulfilled. Allows us to keep this synchronous.
 		Promise.all([
+
 			fetch('https://api.openweathermap.org/data/2.5/forecast?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
 				return response.json();
 			}),
 			fetch('https://api.openweathermap.org/data/2.5/weather?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
 				return response.json();
 			})
-			]).then((data) => {
-				// console.log(data, icons[data[1].weather[0].icon]);
+
+		]).then((data) => {
+
 			// At this point, all of the data is logged.
+			// dataObj is where we will put all of the main weather data we care about.
+			// dateOrder lets us know which date we start/end with so that everything displays chronologically.
+			// iconArray is to help us figure out what icon is appropriate for the upcoming forecast.
+
 			var dataObj = {};
 			var dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 			var dateOrder = [];
 			var iconArray = [];
+
 			// Pushing in the current icon for today.
 			iconArray.push(icons[data[1].weather[0].icon]);
-			console.log(iconArray);
-			// console.log(data.list);
+
 			var current="";
 			var previous="";
 			let tempIcon = [];
+
 			data[0].list.forEach((arr, index) => {
 
-				// console.log(arr.weather[0].icon);
-
 				let day = new Date(arr.dt*1000);
-				// console.log(day, dates[day.getDay()]);
+
 				// Only runs upon hitting a new day of the week.
 				if(!(dates[day.getDay()] in dataObj)){
+
 					if(tempIcon.length > 0){
-						// console.log(tempIcon);
+
 						this.findMode(tempIcon);
 						iconArray.push(this.findMode(tempIcon));
+
 					}
+
+					// Reset arrays, increment through variables, and push data
 					tempIcon = [];
 					previous = current;
 					current = dates[day.getDay()];
 					dateOrder.push(current);
+
 					// Initialize the array
 					dataObj[current] = [];
+
 					// Push in the last datapoint for the previous set.
+
 					if(previous){
 						dataObj[previous].push(arr);
 						tempIcon.push(icons[arr.weather[0].icon]);
 					}
+
 					// push in the first datapoint for the new set.
 					dataObj[current].push(arr);
 
 				} else if((dates[day.getDay()] in dataObj)){
+					
 					dataObj[dates[day.getDay()]].push(arr);
 					// If it is not the first date of the array, place the icon in the array.
 					if(previous){
@@ -102,10 +110,8 @@ class WeatherApp extends React.Component {
 					}
 				}
 			});
-			// console.log(tempIcon);
 			this.findMode(tempIcon);
 			iconArray.push(this.findMode(tempIcon));
-			// console.log(iconArray);
 			this.setState(
 				{
 					currentTemp: {
@@ -154,58 +160,10 @@ class WeatherApp extends React.Component {
 		return icon;
 	}
 
-	handleDayData(day) {
-		if(this.state.weekdata){
-			return this.state.weekdata[day];
-		}
-	}
-
-	handleData() {
-		if(this.state.dateorder){
-			return this.state.dateorder.map((date, i) => {
-				return (
-					<Link key={i} to={date}>
-						<WeatherCard
-							first={i === 0}
-							currentTemp={this.state.currentTemp}
-							hourly={this.handleDayData(date)}
-							currentDay={this.state.dateorder ? this.state.dateorder[i] : ""}
-							icon={this.state.icons[i]}
-						/>
-					</Link>
-				);
-			});
-		}
-	}
-
-	handleGraphs() {
-		if(this.state.dateorder){
-
-			return this.state.dateorder.map((date, i) => {
-				console.log(this.state.weekdata[date], "this is it!");
-				return 	(
-					<Route key={i} path={`/${this.state.dateorder ? this.state.dateorder[i] : ""}`}
-						// Apparently this is how you pass props down to components with react-router. Who knew? 
-						render={(routeProps) => (
-							<HourlyForecast {...routeProps} weekdata={this.state.weekdata[date]} />
-						)}
-					/>
-				);
-			});			
-		}
-	}
-
 	render() {
 		return (
 			<Router>
-				<div className="container">
-					<div className="weather-cards-group">
-						{this.handleData()}
-					</div>
-					<div className="hourly">
-						{this.handleGraphs()}
-					</div>
-				</div>
+				<DataWrapper weatherData={this.state}/>
 			</Router>
 		);
 	}
