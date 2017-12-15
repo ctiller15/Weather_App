@@ -54,7 +54,7 @@ class WeatherApp extends React.Component {
 				return response.json();
 			})
 			]).then((data) => {
-				console.log(data, icons[data[1].weather[0].icon]);
+				// console.log(data, icons[data[1].weather[0].icon]);
 			// At this point, all of the data is logged.
 			var dataObj = {};
 			var dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -76,7 +76,7 @@ class WeatherApp extends React.Component {
 				// Only runs upon hitting a new day of the week.
 				if(!(dates[day.getDay()] in dataObj)){
 					if(tempIcon.length > 0){
-						console.log(tempIcon);
+						// console.log(tempIcon);
 						this.findMode(tempIcon);
 						iconArray.push(this.findMode(tempIcon));
 					}
@@ -102,10 +102,10 @@ class WeatherApp extends React.Component {
 					}
 				}
 			});
-			console.log(tempIcon);
+			// console.log(tempIcon);
 			this.findMode(tempIcon);
 			iconArray.push(this.findMode(tempIcon));
-			console.log(iconArray);
+			// console.log(iconArray);
 			this.setState(
 				{
 					currentTemp: {
@@ -145,7 +145,6 @@ class WeatherApp extends React.Component {
 			} else {
 				objChecker[arr[i]] += 1;
 			}
-
 			// Check if it has a value greater than the current item
 			if(objChecker[arr[i]] > max){
 				max = objChecker[arr[i]];
@@ -180,16 +179,20 @@ class WeatherApp extends React.Component {
 	}
 
 	handleGraphs() {
-		return WeatherData.map((item, i) => {
-			return 	(
-				<Route key={i} path={`/${this.state.dateorder ? this.state.dateorder[i] : ""}`}
-					// Apparently this is how you pass props down to components with react-router. Who knew? 
-					render={(routeProps) => (
-						<HourlyForecast {...routeProps} {...item} />
-					)}
-				/>
-			);
-		});
+		if(this.state.dateorder){
+
+			return this.state.dateorder.map((date, i) => {
+				console.log(this.state.weekdata[date], "this is it!");
+				return 	(
+					<Route key={i} path={`/${this.state.dateorder ? this.state.dateorder[i] : ""}`}
+						// Apparently this is how you pass props down to components with react-router. Who knew? 
+						render={(routeProps) => (
+							<HourlyForecast {...routeProps} weekdata={this.state.weekdata[date]} />
+						)}
+					/>
+				);
+			});			
+		}
 	}
 
 	render() {
