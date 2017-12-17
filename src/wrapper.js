@@ -46,7 +46,7 @@ class DataWrapper extends React.Component{
 		if(this.props.weatherData.dateorder){
 
 			return this.props.weatherData.dateorder.slice(0,5).map((date, i) => {
-				console.log(this.props.weatherData.weekdata[date], "this is it!");
+				// console.log(this.props.weatherData.weekdata[date], "this is it!");
 				return 	(
 					<Route key={i} path={`/${this.props.weatherData.dateorder ? this.props.weatherData.dateorder[i] : ""}`}
 						// Apparently this is how you pass props down to components with react-router. Who knew? 
