@@ -5,7 +5,8 @@ import HourlyForecast from './hourlyForecast.js';
 
 import {
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 
 // Now I should be able to change the state of this from Fahrenheit to Celsius without calling the API all over again.
@@ -42,6 +43,28 @@ class DataWrapper extends React.Component{
 		}
 	}
 
+	handleIndex() {
+		if(this.props.weatherData.weekdataFull){
+			return (
+				<Link to='/'>
+					Home
+				</Link>
+			)
+		}
+	}
+
+	handleIndexGraph() {
+		if(this.props.weatherData.weekdataFull){
+			return (
+				<Route exact path='/'
+					render={(routeProps) => (
+						<HourlyForecast {...routeProps} weekdata={this.props.weatherData.weekdataFull} />
+					)}
+				/>
+			);
+		}
+	}
+
 	handleGraphs() {
 		if(this.props.weatherData.dateorder){
 
@@ -65,8 +88,14 @@ class DataWrapper extends React.Component{
 				<div className="weather-cards-group">
 					{this.handleData()}
 				</div>
+				<div>
+					{this.handleIndex()}
+				</div>
 				<div className="hourly">
-					{this.handleGraphs()}
+					<Switch>
+						{this.handleIndexGraph()}
+						{this.handleGraphs()}
+					</Switch>
 				</div>
 			</div>			
 		);

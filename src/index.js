@@ -51,6 +51,7 @@ class WeatherApp extends React.Component {
 
 		]).then((data) => {
 
+			console.log(data);
 			// At this point, all of the data is logged.
 			// dataObj is where we will put all of the main weather data we care about.
 			// dateOrder lets us know which date we start/end with so that everything displays chronologically.
@@ -132,6 +133,7 @@ class WeatherApp extends React.Component {
 						},
 					},
 					weekdata: dataObj,
+					weekdataFull: data[0].list,
 					dateorder: dateOrder,
 					icons: iconArray
 				},
