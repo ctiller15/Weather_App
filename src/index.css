@@ -26,6 +26,7 @@ body{
 .weather-cards-group a{
 	border: 1px solid gray;
 	display: flex;
+	flex-shrink: 1;
 	justify-content: center;
 	flex-basis: 150px;
 	text-decoration: none;
@@ -54,6 +55,11 @@ body{
 .weather-icon{
 	display: flex;
 	justify-content: center;
+}
+
+.weather-icon img{
+	width: 100%;
+	height: 100%;
 }
 
 .temperatures{

@@ -3,29 +3,30 @@ import React from 'react';
 // Working on getting a fancy ol' graph...
 
 import { AxisLeft, AxisBottom } from '@vx/axis';
-import { GradientOrangeRed } from '@vx/gradient';
 import { Group } from '@vx/group';
 import { LinearGradient } from '@vx/gradient';
+import { withParentSize } from '@vx/responsive';
 
-import { appleStock } from '@vx/mock-data';
 import { scaleTime, scaleLinear } from '@vx/scale';
 import { extent, max } from 'd3-array';
 import { AreaClosed } from '@vx/shape';
 
-const width = 750;
-const height = 400;
-
-const margin = {
-	top: 60,
-	bottom: 60,
-	left: 80,
-	right: 80,
-};
-
-const xMax = width - margin.left - margin.right;
-const yMax = height - margin.top - margin.bottom;
+// withParentSize passes down the size of the parent as a prop to this element.
 
 function HourlyForecast(props) {
+
+	const height = props.parentHeight;
+	const width = props.parentWidth;
+
+	const margin = {
+		top: 20,
+		bottom: 60,
+		left: 60,
+		right: 20,
+	};
+
+	const xMax = width - margin.left - margin.right;
+	const yMax = height - margin.top - margin.bottom;
 
 	const data = props.weekdata;
 
@@ -42,68 +43,52 @@ function HourlyForecast(props) {
 		domain: [0, max(data, y)],
 	});
 
-	// Calculates the current time in hours, given a ms input.
-	function currentHours(timems){
-		// console.log((new Date(timems * 1000)).getHours());
-		return (new Date(timems * 1000)).getHours();
-	}
+	const chart = ( 
+		<svg width={width} height={height}>
+			<Group top={margin.top} left={margin.left}>
 
-const chart = ( 
-	<svg width={width} height={height}>
-		<Group top={margin.top} left={margin.left}>
+				<AreaClosed
+					data={data}
+					xScale={xScale}
+					yScale={yScale}
+					x={x}
+					y={y}
+					fill={"url(#gradient)"}
+					stroke={""}
+				/>
 
-			<AreaClosed
-				data={data}
-				xScale={xScale}
-				yScale={yScale}
-				x={x}
-				y={y}
-				fill={"url(#gradient)"}
-				stroke={""}
-			/>
+				<AxisBottom
+					scale={ xScale }
+					top={ yMax }
+					numTicks={ 6 }
+					label={'Time'}
+					stroke={'#1b1a1e'}
+					tickTextFill={'#1b1a1e'}
+				/>
 
-			<AxisBottom
-				scale={ xScale }
-				top={ yMax }
-				label={'Time'}
-				stroke={'#1b1a1e'}
-				tickTextFill={'#1b1a1e'}
-			/>
+				<AxisLeft
+					scale={yScale}
+					top={0}
+					left={0}
+					label={'Temperature (F)'}
+					stroke={'#1b1a1e'}
+					tickTextFill={'#1b1a1e'}
+				/>
 
-			<AxisLeft
-				scale={yScale}
-				top={0}
-				left={0}
-				label={'Temperature (F)'}
-				stroke={'#1b1a1e'}
-				tickTextFill={'#1b1a1e'}
-			/>
+				<LinearGradient
+					from='#fbc2eb'
+					to='#a6c1ee'
+					id='gradient'
+				/>
 
-			<LinearGradient
-				from='#fbc2eb'
-				to='#a6c1ee'
-				id='gradient'
-			/>
+			</Group>
+		</svg> );
 
-		</Group>
-	</svg> );
-
-	// Loops through all of the snapshot data we have and outputs it to the DOM.
-	const listItems = props.weekdata.map((item, i) => {
-		return( 
-			<div key={i} className="hourly-snapshot">
-				<p>{currentHours(item.dt) >= 12 ? currentHours(item.dt) % 12 + " PM" : currentHours(item.dt) + " AM"}</p>
-				<p>{((item.main.temp - 273.15) * 1.8 + 32).toFixed(2) + " F"}</p>
+		return(
+			<div className="hourly-data">
+				{chart}
 			</div>
 		);
-	});
+	}
 
-	return(
-		<div className="hourly-data">
-			{/* {listItems} */}
-			{ chart }
-		</div>
-	);
-}
-
-export default HourlyForecast;
+export default withParentSize(HourlyForecast);
