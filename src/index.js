@@ -37,108 +37,122 @@ class WeatherApp extends React.Component {
 			"13n": "snow.png",
 			"50d": "fog.png",
 			"50n": "fog.png"
-		}
+		};
 
-		// Only runs once both promises are fulfilled. Allows us to keep this synchronous.
-		Promise.all([
+		// IIFE with this bound to the enclosing scope.
+		(() =>  {
+			if ("geolocation" in navigator) {
+		  console.log("We can geolocate! Whoo!", this);
+		  navigator.geolocation.getCurrentPosition((position) => {
+		  	console.log(position, this);
+			// Only runs once both promises are fulfilled. Allows us to keep this synchronous.
+			Promise.all([
 
-			fetch('https://api.openweathermap.org/data/2.5/forecast?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
-				return response.json();
-			}),
-			fetch('https://api.openweathermap.org/data/2.5/weather?q=Tampa&appid=c753b4feae5388aca46414f0ab6a4c14').then(function(response){
-				return response.json();
-			})
+				fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=c753b4feae5388aca46414f0ab6a4c14`).then(function(response){
+					return response.json();
+				}),
+				fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=c753b4feae5388aca46414f0ab6a4c14`).then(function(response){
+					return response.json();
+				})
 
-		]).then((data) => {
+			]).then((data) => {
 
-			console.log(data);
-			// At this point, all of the data is logged.
-			// dataObj is where we will put all of the main weather data we care about.
-			// dateOrder lets us know which date we start/end with so that everything displays chronologically.
-			// iconArray is to help us figure out what icon is appropriate for the upcoming forecast.
+				console.log(data);
+				// At this point, all of the data is logged.
+				// dataObj is where we will put all of the main weather data we care about.
+				// dateOrder lets us know which date we start/end with so that everything displays chronologically.
+				// iconArray is to help us figure out what icon is appropriate for the upcoming forecast.
 
-			var dataObj = {};
-			var dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-			var dateOrder = [];
-			var iconArray = [];
+				var dataObj = {};
+				var dates = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+				var dateOrder = [];
+				var iconArray = [];
 
-			// Pushing in the current icon for today.
-			iconArray.push(icons[data[1].weather[0].icon]);
+				// Pushing in the current icon for today.
+				iconArray.push(icons[data[1].weather[0].icon]);
 
-			var current="";
-			var previous="";
-			let tempIcon = [];
+				var current="";
+				var previous="";
+				let tempIcon = [];
 
-			data[0].list.forEach((arr, index) => {
+				data[0].list.forEach((arr, index) => {
 
-				let day = new Date(arr.dt*1000);
+					let day = new Date(arr.dt*1000);
 
-				// Only runs upon hitting a new day of the week.
-				if(!(dates[day.getDay()] in dataObj)){
+					// Only runs upon hitting a new day of the week.
+					if(!(dates[day.getDay()] in dataObj)){
 
-					if(tempIcon.length > 0){
+						if(tempIcon.length > 0){
+							console.log(this);
+							this.findMode(tempIcon);
+							iconArray.push(this.findMode(tempIcon));
 
-						this.findMode(tempIcon);
-						iconArray.push(this.findMode(tempIcon));
+						}
 
+						// Reset arrays, increment through variables, and push data
+						tempIcon = [];
+						previous = current;
+						current = dates[day.getDay()];
+						dateOrder.push(current);
+
+						// Initialize the array
+						dataObj[current] = [];
+
+						// Push in the last datapoint for the previous set.
+
+						if(previous){
+							dataObj[previous].push(arr);
+							tempIcon.push(icons[arr.weather[0].icon]);
+						}
+
+						// push in the first datapoint for the new set.
+						dataObj[current].push(arr);
+
+					} else if((dates[day.getDay()] in dataObj)){
+						
+						dataObj[dates[day.getDay()]].push(arr);
+						// If it is not the first date of the array, place the icon in the array.
+						if(previous){
+							tempIcon.push(icons[arr.weather[0].icon]);
+						}
 					}
-
-					// Reset arrays, increment through variables, and push data
-					tempIcon = [];
-					previous = current;
-					current = dates[day.getDay()];
-					dateOrder.push(current);
-
-					// Initialize the array
-					dataObj[current] = [];
-
-					// Push in the last datapoint for the previous set.
-
-					if(previous){
-						dataObj[previous].push(arr);
-						tempIcon.push(icons[arr.weather[0].icon]);
-					}
-
-					// push in the first datapoint for the new set.
-					dataObj[current].push(arr);
-
-				} else if((dates[day.getDay()] in dataObj)){
-					
-					dataObj[dates[day.getDay()]].push(arr);
-					// If it is not the first date of the array, place the icon in the array.
-					if(previous){
-						tempIcon.push(icons[arr.weather[0].icon]);
-					}
-				}
-			});
-			this.findMode(tempIcon);
-			iconArray.push(this.findMode(tempIcon));
-			this.setState(
-				{
-					currentTemp: {
-						kelvin: {
-							current: data[1].main.temp,
-							min: data[1].main.temp_min,
-							max: data[1].main.temp_max
+				});
+				this.findMode(tempIcon);
+				iconArray.push(this.findMode(tempIcon));
+				this.setState(
+					{
+						currentTemp: {
+							kelvin: {
+								current: data[1].main.temp,
+								min: data[1].main.temp_min,
+								max: data[1].main.temp_max
+							},
+							celsius: {
+								current: data[1].main.temp - 273.15,
+								min: data[1].main.temp_min - 273.15,
+								max: data[1].main.temp_max - 273.15
+							},
+							fahrenheit:{
+								current: ((data[1].main.temp - 273.15) * 1.8) + 32,
+								min: ((data[1].main.temp_min - 273.15) * 1.8) + 32,
+								max: ((data[1].main.temp_max - 273.15) * 1.8) + 32
+							},
 						},
-						celsius: {
-							current: data[1].main.temp - 273.15,
-							min: data[1].main.temp_min - 273.15,
-							max: data[1].main.temp_max - 273.15
-						},
-						fahrenheit:{
-							current: ((data[1].main.temp - 273.15) * 1.8) + 32,
-							min: ((data[1].main.temp_min - 273.15) * 1.8) + 32,
-							max: ((data[1].main.temp_max - 273.15) * 1.8) + 32
-						},
+						weekdata: dataObj,
+						weekdataFull: data[0].list,
+						dateorder: dateOrder,
+						icons: iconArray
 					},
-					weekdata: dataObj,
-					weekdataFull: data[0].list,
-					dateorder: dateOrder,
-					icons: iconArray
-				},
-			);
-		});
+				);
+			});
+
+		  });
+		} else {
+		  console.log("We need to use some other means of geolocation! Maaaaan...");
+		}
+		})();	
+
+
 	}
 
 	// Finds the mode of a given array. Currently used to find the most appropriate icon for an upcoming day.
