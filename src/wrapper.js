@@ -97,6 +97,9 @@ class DataWrapper extends React.Component{
 						{this.handleGraphs()}
 					</Switch>
 				</div>
+				<footer className="footer">
+					<p>This is some footer text</p>
+				</footer>
 			</div>			
 		);
 	}
