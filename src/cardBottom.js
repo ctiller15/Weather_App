@@ -5,15 +5,15 @@ function chooseDisplay(props){
 	if(Math.abs(props.temps.high - props.temps.low) < 1){
 		return(
 			<div className="temperatures">
-				<p>{props.temps.low} &deg;F</p>
+				<p className="reg">{props.temps.low} &deg;F</p>
 			</div>
 		);
 	} else {
 		// Otherwise, show both!
 		return(
 			<div className="temperatures">
-				<p>{props.temps.low} &deg;F</p>
-				<p>{props.temps.high} &deg;F</p>
+				<p className="low">{props.temps.low} &deg;F</p>
+				<p className="high">{props.temps.high} &deg;F</p>
 			</div>
 		);
 	}	

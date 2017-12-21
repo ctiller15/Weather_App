@@ -46,8 +46,8 @@ class DataWrapper extends React.Component{
 	handleIndex() {
 		if(this.props.weatherData.weekdataFull){
 			return (
-				<Link to='/'>
-					Home
+				<Link className="index-link" to='/'>
+						5-day forecast
 				</Link>
 			)
 		}
@@ -88,7 +88,7 @@ class DataWrapper extends React.Component{
 				<div className="weather-cards-group">
 					{this.handleData()}
 				</div>
-				<div>
+				<div className="center-links">
 					{this.handleIndex()}
 				</div>
 				<div className="hourly">

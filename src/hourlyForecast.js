@@ -62,6 +62,12 @@ function HourlyForecast(props) {
 					top={ yMax }
 					numTicks={ 6 }
 					label={'Time'}
+			        labelProps={{
+			          fill: '#000000',
+			          textAnchor: 'middle',
+			          fontSize: 24,
+			          fontFamily: 'Roboto',
+			        }}
 					stroke={'#1b1a1e'}
 					tickTextFill={'#1b1a1e'}
 				/>
@@ -71,6 +77,12 @@ function HourlyForecast(props) {
 					top={0}
 					left={0}
 					label={'Temperature (F)'}
+			        labelProps={{
+			          fill: '#000000',
+			          textAnchor: 'middle',
+			          fontSize: 20,
+			          fontFamily: 'Roboto',
+			        }}
 					stroke={'#1b1a1e'}
 					tickTextFill={'#1b1a1e'}
 				/>
