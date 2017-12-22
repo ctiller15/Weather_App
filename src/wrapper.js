@@ -98,7 +98,12 @@ class DataWrapper extends React.Component{
 					</Switch>
 				</div>
 				<footer className="footer">
-					<p>This is some footer text</p>
+					<p>Powered by <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">OpenWeather</a> and <a href="https://vx-demo.now.sh/" target="_blank" rel="noopener noreferrer">vx</a></p>
+					<p>App planned, designed and developed by <a href="https://www.curiouschriscodes.com/" target="_blank" rel="noopener noreferrer">Christopher Tiller</a></p>
+					<p>Icons provided by <a href="https://vclouds.deviantart.com/art/weather-icon-set-165476034" target="_blank" rel="noopener noreferrer">umutavci</a></p>
+					<div className="social">
+
+					</div>
 				</footer>
 			</div>			
 		);
