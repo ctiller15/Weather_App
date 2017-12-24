@@ -14,6 +14,10 @@ import { AreaClosed } from '@vx/shape';
 // withParentSize passes down the size of the parent as a prop to this element.
 
 function HourlyForecast(props) {
+	
+	console.log(window.innerWidth);
+//	if(window.innerWidth >)
+
 
 	const height = props.parentHeight;
 	const width = props.parentWidth;
@@ -24,7 +28,40 @@ function HourlyForecast(props) {
 		left: 60,
 		right: 20,
 	};
-
+		
+	var labelPropsBottom = {
+						  fill: '#3f4a4f',
+						  textAnchor: 'middle',
+						  fontSize: 24,
+						  fontFamily: 'Roboto',
+						};
+	
+	var labelPropsLeft = {
+						  fill: '#3f4a4f',
+						  textAnchor: 'middle',
+						  fontSize: 20,
+						  fontFamily: 'Roboto',
+						};
+	
+//	tickTextFontSize doesn't seem to work. Look into it!
+//	var tickTextFontSizeBottom = 10;
+//	var tickTextFontSizeLeft = 10;
+	
+	if(window.innerWidth >= 768){
+			labelPropsBottom.fontSize = 30;
+			labelPropsLeft.fontSize = 30;
+			margin.left = 80;
+//			tickTextFontSizeBottom = 20;
+	} if(window.innerWidth >= 1024){
+			labelPropsBottom.fontSize = 40;
+			margin.bottom = 80;
+			labelPropsLeft.fontSize = 40;
+			margin.left = 100;
+	} if(window.innerWidth >= 1224){
+		labelPropsBottom.fontSize = 20;
+		labelPropsLeft.fontSize = 20;
+	}
+	
 	const xMax = width - margin.left - margin.right;
 	const yMax = height - margin.top - margin.bottom;
 
@@ -62,14 +99,10 @@ function HourlyForecast(props) {
 					top={ yMax }
 					numTicks={ 6 }
 					label={'Time'}
-			        labelProps={{
-			          fill: '#000000',
-			          textAnchor: 'middle',
-			          fontSize: 24,
-			          fontFamily: 'Roboto',
-			        }}
-					stroke={'#1b1a1e'}
-					tickTextFill={'#1b1a1e'}
+			        labelProps={labelPropsBottom}
+					stroke={'#3f4a4f'}
+					tickTextFill={'#3f4a4f'}
+//					tickTextFontSize={ 20 }
 				/>
 
 				<AxisLeft
@@ -77,19 +110,15 @@ function HourlyForecast(props) {
 					top={0}
 					left={0}
 					label={'Temperature (F)'}
-			        labelProps={{
-			          fill: '#000000',
-			          textAnchor: 'middle',
-			          fontSize: 20,
-			          fontFamily: 'Roboto',
-			        }}
-					stroke={'#1b1a1e'}
-					tickTextFill={'#1b1a1e'}
+			        labelProps={labelPropsLeft}
+					stroke={'#3f4a4f'}
+					tickTextFill={'#3f4a4f'}
+//					tickTextFontSize={ 50 }
 				/>
 
 				<LinearGradient
-					from='#FF0000'
-					to='#0000FF'
+					from='#D70500'
+					to='#100650'
 					id='gradient'
 				/>
 

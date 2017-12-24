@@ -15,7 +15,7 @@ body{
 
 #root{
 	display: flex;
-	border: 1px solid green;
+/*	border: 1px solid green;*/
 }
 
 .container{
@@ -27,7 +27,7 @@ body{
 	flex-shrink: 1;
 	/*Added to prevent weird resizing issue.*/
 	max-width: 100%;
-	border: 1px solid cyan;
+/*	border: 1px solid cyan;*/
 }
 
 .weather-cards-group{
@@ -120,14 +120,14 @@ body{
 	align-items: center;
 	text-decoration: none;
 	font-size: 1.5em;
-	border: 1px solid gray;
+/*	border: 1px solid gray;*/
 	border-radius: 10px;
 	background: var(--accent-color);
-	color: var(--light-color);
+	color: var(--balancing);
 }
 
 .index-link:visited{
-	color: var(--light-color);
+	color: var(--balancing);
 }
 
 .hourly-data{
