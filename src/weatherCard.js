@@ -24,6 +24,22 @@ function averageDayTemps(weatherArray, type){
 	return averaged;
 }
 
+function maxMinTemps(weatherArray, type){
+	let tempArray = weatherArray.map((weatherElem) => {
+		if(type === "max"){
+			return weatherElem.main.temp_max;
+		} else if (type === "min"){
+			return weatherElem.main.temp_min;
+		}
+	});
+	console.log(tempArray);
+	if(type === "max"){
+		return (((Math.max(...tempArray) - 273.15) * 1.8) + 32).toFixed(2);
+	} else if(type === "min"){
+		return (((Math.min(...tempArray) - 273.15) * 1.8) + 32).toFixed(2);
+	}
+}
+
 // A little confusing, but this just takes in the props object from WeatherCard.
 function displayCardBottom(props){
 	if(props.currentTemp){
@@ -31,8 +47,8 @@ function displayCardBottom(props){
 			<CardBottom 
 				temps={
 					{
-						high: props.first ? props.currentTemp.fahrenheit.max.toFixed(2) : averageDayTemps(props.hourly, "max"),
-						 low: props.first ? props.currentTemp.fahrenheit.min.toFixed(2) : averageDayTemps(props.hourly, "min")
+						high: props.first ? props.currentTemp.fahrenheit.max.toFixed(2) : maxMinTemps(props.hourly, "max"),
+						 low: props.first ? props.currentTemp.fahrenheit.min.toFixed(2) : maxMinTemps(props.hourly, "min")
 					}
 				}
 			/>

@@ -31,7 +31,7 @@ function HourlyForecast(props) {
 	const data = props.weekdata;
 
 	const x = w => new Date(w.dt * 1000);
-	const y = w => ((w.main.temp - 273.15) * 1.8 + 32).toFixed(2)
+	const y = w => ((w.main.temp - 273.15) * 1.8 + 32).toFixed(2);
 
 	const xScale = scaleTime({
 		range: [0, xMax],
@@ -88,8 +88,8 @@ function HourlyForecast(props) {
 				/>
 
 				<LinearGradient
-					from='#fbc2eb'
-					to='#a6c1ee'
+					from='#FF0000'
+					to='#0000FF'
 					id='gradient'
 				/>
 
