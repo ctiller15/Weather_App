@@ -16,7 +16,7 @@ class DataWrapper extends React.Component{
 		super(props);
 		this.state = {
 
-		}
+		};
 	}
 
 	handleDayData(day) {
@@ -29,15 +29,17 @@ class DataWrapper extends React.Component{
 		if(this.props.weatherData.dateorder){
 			return this.props.weatherData.dateorder.slice(0,5).map((date, i) => {
 				return (
-					<Link key={i} to={date}>
-						<WeatherCard
-							first={i === 0}
-							currentTemp={this.props.weatherData.currentTemp}
-							hourly={this.handleDayData(date)}
-							currentDay={this.props.weatherData.dateorder ? this.props.weatherData.dateorder[i] : ""}
-							icon={this.props.weatherData.icons[i]}
-						/>
-					</Link>
+					<div key={i} className="card-wrapper">
+						<Link to={date}>
+								<WeatherCard
+									first={i === 0}
+									currentTemp={this.props.weatherData.currentTemp}
+									hourly={this.handleDayData(date)}
+									currentDay={this.props.weatherData.dateorder ? this.props.weatherData.dateorder[i] : ""}
+									icon={this.props.weatherData.icons[i]}
+								/>
+						</Link>
+					</div>
 				);
 			});
 		}
@@ -46,9 +48,11 @@ class DataWrapper extends React.Component{
 	handleIndex() {
 		if(this.props.weatherData.weekdataFull){
 			return (
-				<Link className="index-link" to='/'>
-						5-day forecast
-				</Link>
+				<div className="index-wrapper">
+					<Link className="index-link" to='/'>
+							5-day forecast
+					</Link>
+				</div>
 			)
 		}
 	}
@@ -86,7 +90,7 @@ class DataWrapper extends React.Component{
 		return(
 			<div className="container">
 				<div className="weather-cards-group">
-					{this.handleData()}
+						{this.handleData()}
 				</div>
 				<div className="center-links">
 					{this.handleIndex()}

@@ -4,6 +4,8 @@ html{
 	--light-color: #e9f4f9;
 	--dark-color: #3f4a4f;
 	--balancing: #FFFFFF;
+	--hot: #D70500;
+	--cold: #100650;
 }
 
 body{
@@ -37,6 +39,13 @@ body{
 	background: var(--main-bg-color);
 }
 
+.card-wrapper{
+	display: flex;
+	background-color: var(--accent-color);
+	border-radius: 5px;
+	flex-basis: 150px;
+}
+
 .weather-cards-group a{
 	display: flex;
 	flex-shrink: 1;
@@ -45,6 +54,11 @@ body{
 	text-decoration: none;
 	background: var(--balancing);
 	border-radius: 5px;
+}
+
+.weather-cards-group a:hover, .weather-cards-group a:active, .weather-cards-group a:focus{
+	opacity: .85;
+	color: var(--dark-color);
 }
 
 .hourly{
@@ -57,9 +71,13 @@ body{
 	flex-basis: 150px;
 	flex-direction: column;
 	align-items: stretch;
-	border: 1px solid gray;
+	border: 1px solid #ABB8B9;
 	border-radius: 5px;
 	overflow: hidden;
+}
+
+.weather-cards-group a:focus .weather-card{
+	border: 1px solid var(--main-bg-color);
 }
 
 .day{
@@ -93,11 +111,11 @@ body{
 }
 
 .temperatures .low{
-	color: blue;
+	color: var(--cold);
 }
 
 .temperatures .high{
-	color: red;
+	color: var(--hot);
 }
 
 .temperatures .reg{
@@ -110,6 +128,13 @@ body{
 	justify-content: center;
 	align-items: center;
 	flex-basis: 60px;
+}
+
+.index-wrapper{
+	background: var(--dark-color);
+	display: flex;
+	flex-basis: 200px;
+	border-radius: 10px;
 }
 
 .index-link{
@@ -128,6 +153,10 @@ body{
 
 .index-link:visited{
 	color: var(--balancing);
+}
+
+.index-link:hover{
+	opacity: .9;
 }
 
 .hourly-data{
@@ -151,6 +180,14 @@ footer{
 footer p{
 	text-align: center;
 	margin: 0;
+}
+
+footer a{
+	text-decoration: none;
+}
+
+footer a:hover{
+	text-decoration: underline;
 }
 
 @media screen and (min-width: 768px){
@@ -217,6 +254,10 @@ footer p{
 	.weather-cards-group{
 		flex-basis: 200px;
 	}
+	
+	.weather-cards-group a{
+		transition: opacity .2s;
+	}
 
 	.weather-cards-group h3{
 		font-size: 1.5em;
@@ -234,6 +275,7 @@ footer p{
 	.index-link{
 		font-size: 1.5em;
 		min-height: 40px;
+		transition: opacity .3s;
 	}
 
 	.temperatures{
