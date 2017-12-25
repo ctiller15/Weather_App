@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@vx/axis": "0.0.147",
+    "@vx/gradient": "0.0.143",
+    "@vx/group": "0.0.143",
     "@vx/responsive": "0.0.150",
+    "@vx/scale": "0.0.143",
+    "@vx/shape": "0.0.147",
+    "d3-array": "^1.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
