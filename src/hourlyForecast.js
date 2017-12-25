@@ -117,7 +117,7 @@ function HourlyForecast(props) {
 				/>
 
 				<LinearGradient
-					from='#D70500'
+					from='#C2231F'
 					to='#100650'
 					id='gradient'
 				/>
